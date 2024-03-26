@@ -19,12 +19,16 @@ func main() {
 		log.Fatal().Msg("TELEGRAM_TOKEN not set")
 	}
 
+	log.Info().Msgf("TELEGRAM_TOKEN: %s", TELEGRAM_TOKEN)
+
 	// Recever Webhook URL from env
 	TELEGRAM_WEBHOOK := os.Getenv("TELEGRAM_WEBHOOK")
 	switch TELEGRAM_WEBHOOK {
 	case "":
 		log.Fatal().Msg("TELEGRAM_WEBHOOK not set")
 	}
+
+	log.Info().Msgf("TELEGRAM_WEBHOOK: %s", TELEGRAM_WEBHOOK)
 
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, os.Kill)
 
@@ -45,16 +49,17 @@ func main() {
 
 	go tgbot.StartWebhook(ctx)
 
-	BOT_PORT := os.Getenv("TELEGRAM_BOT_PORT")
+	BOT_PORT := os.Getenv("BOT_PORT")
 	switch BOT_PORT {
 	case "":
 		log.Info().Msg("BOT_PORT not set. Assuming deafault port :3000")
-	default:
-		BOT_PORT = ":3000"
+		BOT_PORT = "3000"
 	}
 
+	log.Info().Msgf("BOT_PORT: %s", BOT_PORT)
+
 	go func() {
-		err = http.ListenAndServe(BOT_PORT, tgbot.WebhookHandler())
+		err = http.ListenAndServe(":"+BOT_PORT, tgbot.WebhookHandler())
 		switch {
 		case err != nil:
 			log.Fatal().Msgf("ERROR: %v", err)
