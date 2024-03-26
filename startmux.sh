@@ -1,8 +1,6 @@
 #!/bin/bash
 
-# get ngrok url and create env var
-ADDR=$(curl --silent --show-error http://127.0.0.1:4040/api/tunnels | sed -nE 's/.*public_url":"https:..([^"]*).*/\1/p')
-echo "export TELEGRAM_WEBHOOK=https://"${ADDR} >.boturl
+source .env
 
 SESSION_NAME="development"
 
@@ -16,13 +14,10 @@ tmux -u new-window -t $SESSION_NAME:1 -n "nvim"
 tmux send-keys -t $SESSION_NAME:1 'nvim' C-m
 
 tmux -u new-window -t $SESSION_NAME:2 -n "ngrok"
-tmux send-keys -t $SESSION_NAME:2 'ngrok http 2000' C-m
-
-# tmux -u new-window -t $SESSION_NAME:3 -n "start bot"
-# tmux send-keys -t $SESSION_NAME:3 'sleep 2 && ./botON-OFF on' C-m
+tmux send-keys -t $SESSION_NAME:2 'ngrok http ${BOT_PORT}' C-m
 
 tmux -u new-window -t $SESSION_NAME:3 -n "run"
-tmux send-keys -t $SESSION_NAME:3 'sleep 5 && source .env && source .boturl && air' C-m
+tmux send-keys -t $SESSION_NAME:3 'sleep 5 && source genURL && air' C-m
 
 tmux -u new-window -t $SESSION_NAME:4 -n "Lazygit"
 tmux send-keys -t $SESSION_NAME:4 'lazygit' C-m
