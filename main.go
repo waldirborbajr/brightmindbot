@@ -12,13 +12,30 @@ import (
 )
 
 func main() {
-
+	// always log in UTC, with accurate timestamps
+		zerolog.TimestampFunc = func() time.Time {
+			return time.Now().UTC()
+		}
+		zerolog.TimeFieldFormat = time.RFC3339Nano
+		// NodeJS/bunyan uses "msg" for MessageFieldName, but that's bad for LogDNA,
+		// so don't do that here; do make error logging consistent with NodeJS however
+		zerolog.ErrorFieldName = "err"
+	
 	switch os.Getenv("ENVIRONMENT") {
 		case "dev":
 			zerolog.SetGlobalLevel(zerolog.ErrorLevel)
+						zerolog.SetGlobalLevel(zerolog.DebugLevel)
+
+		    Log.logger = zerolog.New(zerolog.ConsoleWriter{Out: os.Stderr, NoColor: false}).With().Timestamp().Logger()
 		case "prod":
+		zerolog.SetGlobalLevel(zerolog.InfoLevel)
 		zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	}
+		log.Logger = zerolog.New(os.Stdout).
+			With().
+			Timestamp().
+			Logger()
+	log.Info().Msg("Logging initialized")
 		
 	
 	// Recover Telegram token from env
