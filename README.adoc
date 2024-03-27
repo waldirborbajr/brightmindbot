@@ -1,3 +1,5 @@
+:hide-uri-scheme: 
+
 ifdef::env-github[]
 ++++
 <p align="center">
@@ -18,7 +20,4 @@ endif::[]
 
 == Technology
 
-* [Telegram](https://core.telegram.org/)
-* [LLM](https://en.wikipedia.org/wiki/Large_language_model)
-* [langchaingo](https://github.com/tmc/langchaingo)
-* [GoLang](https://go.dev/)
+https://core.telegram.org/[Telegram] | https://en.wikipedia.org/wiki/Large_language_model[LLM] | https://github.com/tmc/langchaingo[langchaingo] | https://go.dev/[GoLang]
