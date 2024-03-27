@@ -12,6 +12,15 @@ import (
 )
 
 func main() {
+
+	switch os.Getenv("ENVIRONMENT") {
+		case "dev":
+			zerolog.SetGlobalLevel(zerolog.ErrorLevel)
+		case "prod":
+		zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+	}
+		
+	
 	// Recover Telegram token from env
 	TELEGRAM_TOKEN := os.Getenv("TELEGRAM_TOKEN")
 	switch TELEGRAM_TOKEN {
