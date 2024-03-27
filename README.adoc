@@ -16,5 +16,9 @@ endif::[]
 
 ***BETA***: This project is in active development. Please check out the issues and contribute if you're interested in helping out.
 
+== Technology
 
-
+* [Telegram](https://core.telegram.org/)
+* [LLM](https://en.wikipedia.org/wiki/Large_language_model)
+* [langchaingo](https://github.com/tmc/langchaingo)
+* [GoLang](https://go.dev/)
