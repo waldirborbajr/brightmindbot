@@ -25,7 +25,7 @@ small() {
   tmux send-keys -t $SESSION_NAME:4 'lazygit' C-m
 
   # Attach to the newly created session
-  tmux -u attach-session -t $SESSION_NAME
+  tmux -u attach-session -t $SESSION_NAME:1
 }
 
 # big start tmux session for big monitor
