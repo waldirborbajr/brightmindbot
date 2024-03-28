@@ -23,16 +23,12 @@ func main() {
 		log.Fatal().Msg("TELEGRAM_TOKEN not set")
 	}
 
-	log.Info().Msgf("TELEGRAM_TOKEN: %s", TELEGRAM_TOKEN)
-
 	// Recever Webhook URL from env
 	TELEGRAM_WEBHOOK := os.Getenv("TELEGRAM_WEBHOOK")
 	switch TELEGRAM_WEBHOOK {
 	case "":
 		log.Fatal().Msg("TELEGRAM_WEBHOOK not set")
 	}
-
-	log.Info().Msgf("TELEGRAM_WEBHOOK: %s", TELEGRAM_WEBHOOK)
 
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, os.Kill)
 
@@ -71,6 +67,7 @@ func main() {
 	}()
 
 	<-ctx.Done()
+
 	log.Info().Msg("BrightMindBot is shutting down")
 }
 
