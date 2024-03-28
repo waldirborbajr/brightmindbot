@@ -5,16 +5,17 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"time"
 
 	"github.com/go-telegram/bot"
 	"github.com/go-telegram/bot/models"
+	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )
 
 func main() {
 	setupLog()
-		
-	
+
 	// Recover Telegram token from env
 	TELEGRAM_TOKEN := os.Getenv("TELEGRAM_TOKEN")
 	switch TELEGRAM_TOKEN {
@@ -79,28 +80,26 @@ func defaultHandler(ctx context.Context, b *bot.Bot, update *models.Update) {
 
 func setupLog() {
 	// always log in UTC, with accurate timestamps
-		zerolog.TimestampFunc = func() time.Time {
-			return time.Now().UTC()
-		}
-		zerolog.TimeFieldFormat = time.RFC3339Nano
-		// NodeJS/bunyan uses "msg" for MessageFieldName, but that's bad for LogDNA,
-		// so don't do that here; do make error logging consistent with NodeJS however
-		zerolog.ErrorFieldName = "err"
-	
-	switch os.Getenv("ENVIRONMENT") {
-		case "dev":
-			zerolog.SetGlobalLevel(zerolog.ErrorLevel)
-						zerolog.SetGlobalLevel(zerolog.DebugLevel)
+	zerolog.TimestampFunc = func() time.Time {
+		return time.Now().UTC()
+	}
+	zerolog.TimeFieldFormat = time.RFC3339Nano
+	// NodeJS/bunyan uses "msg" for MessageFieldName, but that's bad for LogDNA,
+	// so don't do that here; do make error logging consistent with NodeJS however
+	zerolog.ErrorFieldName = "err"
 
-		    Log.logger = zerolog.New(zerolog.ConsoleWriter{Out: os.Stderr, NoColor: false}).With().Timestamp().Logger()
-		case "prod":
+	switch os.Getenv("ENVIRONMENT") {
+	case "dev":
+		zerolog.SetGlobalLevel(zerolog.ErrorLevel)
+		// zerolog.SetGlobalLevel(zerolog.DebugLevel)
+
+	case "prod":
 		zerolog.SetGlobalLevel(zerolog.InfoLevel)
 		zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	}
-		log.Logger = zerolog.New(os.Stdout).
-			With().
-			Timestamp().
-			Logger()
+	log.Logger = zerolog.New(os.Stdout).
+		With().
+		Timestamp().
+		Logger()
 	log.Info().Msg("Logging initialized")
-	
 }
