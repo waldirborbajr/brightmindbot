@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"net/http"
 	"os"
@@ -66,6 +67,22 @@ func main() {
 
 	log.Info().Msgf("BOT_PORT: %s", BOT_PORT)
 
+	sslbotServer := &http.Server{
+		Addr:    fmt.Sprintf(":%d", 8443),
+		Handler: tgbot.WebhookHandler(),
+		TLSConfig: &tls.Config{
+			GetCertificate: func(*tls.ClientHelloInfo) (*tls.Certificate, error) {
+				// Always get latest localhost.crt and localhost.key
+				// ex: keeping certificates file somewhere in global location where created certificates updated and this closure function can refer that
+				cert, err := tls.LoadX509KeyPair("localhost.crt", "localhost.key")
+				if err != nil {
+					return nil, err
+				}
+				return &cert, nil
+			},
+		},
+	}
+
 	botServer := &http.Server{
 		Addr:    ":" + BOT_PORT,
 		Handler: tgbot.WebhookHandler(),
@@ -78,8 +95,13 @@ func main() {
 
 	go func() {
 		// err = http.ListenAndServe(":"+BOT_PORT, tgbot.WebhookHandler())
-		err = botServer.ListenAndServe()
-		// err = botServer.ListenAndServeTLS("localhost.crt", "localhost.key")
+
+		if os.Getenv("SSL_ENABLED") == "true" {
+			err = sslbotServer.ListenAndServeTLS("localhost.crt", "localhost.key")
+		} else {
+			err = botServer.ListenAndServe()
+		}
+
 		switch {
 		case err != nil:
 			log.Fatal().Msgf("ERROR: %v", err)
