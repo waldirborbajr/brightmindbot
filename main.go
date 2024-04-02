@@ -45,6 +45,10 @@ func main() {
 		log.Panic().Msgf("ERROR: %v", err)
 	}
 
+	// Handle commands
+	tgbot.RegisterHandler(bot.HandlerTypeMessageText, "/start", bot.MatchTypeExact, startHandler)
+	tgbot.RegisterHandler(bot.HandlerTypeMessageText, "/help", bot.MatchTypeExact, helpHandler)
+
 	_, err = tgbot.SetWebhook(ctx, &bot.SetWebhookParams{URL: TELEGRAM_WEBHOOK})
 
 	go tgbot.StartWebhook(ctx)
@@ -71,10 +75,28 @@ func main() {
 	log.Info().Msg("BrightMindBot is shutting down")
 }
 
+// defaultHandler is used for handling updates that don't have a specific handler
 func defaultHandler(ctx context.Context, b *bot.Bot, update *models.Update) {
 	log.Info().Msg("defaultHandler")
 }
 
+func startHandler(ctx context.Context, b *bot.Bot, update *models.Update) {
+	b.SendMessage(ctx, &bot.SendMessageParams{
+		ChatID:    update.Message.Chat.ID,
+		Text:      "Starting",
+		ParseMode: models.ParseModeMarkdown,
+	})
+}
+
+func helpHandler(ctx context.Context, b *bot.Bot, update *models.Update) {
+	b.SendMessage(ctx, &bot.SendMessageParams{
+		ChatID:    update.Message.Chat.ID,
+		Text:      "Cry for help!",
+		ParseMode: models.ParseModeMarkdown,
+	})
+}
+
+// setupLog initializes the global logger
 func setupLog() {
 	// always log in UTC, with accurate timestamps
 	zerolog.TimestampFunc = func() time.Time {
