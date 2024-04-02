@@ -4,3 +4,8 @@ bombot.db
 tmp
 bin
 pwd.txt
+localhost.crt
+localhost.csr
+localhost.key
+rootCA.crt
+rootCA.key
