@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -34,6 +35,9 @@ func main() {
 
 	defer func() { cancel() }()
 
+	mux := http.NewServeMux()
+	mux.HandleFunc("/healthz", healthzHandler)
+
 	opts := []bot.Option{
 		bot.WithDebug(),
 		bot.WithDefaultHandler(defaultHandler),
@@ -62,8 +66,28 @@ func main() {
 
 	log.Info().Msgf("BOT_PORT: %s", BOT_PORT)
 
+	botServer := &http.Server{
+		Addr:    ":" + BOT_PORT,
+		Handler: tgbot.WebhookHandler(),
+	}
+
+	mainServer := &http.Server{
+		Addr:    ":1469",
+		Handler: mux,
+	}
+
 	go func() {
-		err = http.ListenAndServe(":"+BOT_PORT, tgbot.WebhookHandler())
+		// err = http.ListenAndServe(":"+BOT_PORT, tgbot.WebhookHandler())
+		err = botServer.ListenAndServe()
+		// err = botServer.ListenAndServeTLS("localhost.crt", "localhost.key")
+		switch {
+		case err != nil:
+			log.Fatal().Msgf("ERROR: %v", err)
+		}
+	}()
+
+	go func() {
+		err = mainServer.ListenAndServe()
 		switch {
 		case err != nil:
 			log.Fatal().Msgf("ERROR: %v", err)
@@ -94,6 +118,10 @@ func helpHandler(ctx context.Context, b *bot.Bot, update *models.Update) {
 		Text:      "Cry for help!",
 		ParseMode: models.ParseModeMarkdown,
 	})
+}
+
+func healthzHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "It is alive")
 }
 
 // setupLog initializes the global logger
