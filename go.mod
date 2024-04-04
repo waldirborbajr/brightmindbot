@@ -3,7 +3,7 @@ module github.com/waldirborbajr/brightmindbot
 go 1.22.1
 
 require (
-	github.com/go-telegram/bot v1.1.7
+	github.com/go-telegram/bot v1.2.1
 	github.com/rs/zerolog v1.32.0
 )
 
