@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/tls"
 	"fmt"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -84,12 +85,13 @@ func main() {
 	}
 
 	botServer := &http.Server{
-		Addr:    ":" + BOT_PORT,
+		// Addr:    ":" + BOT_PORT,
+		Addr:    net.JoinHostPort("localhost", BOT_PORT),
 		Handler: tgbot.WebhookHandler(),
 	}
 
 	mainServer := &http.Server{
-		Addr:    ":1469",
+		Addr:    net.JoinHostPort("localhost", "1469"),
 		Handler: mux,
 	}
 
@@ -109,6 +111,7 @@ func main() {
 	}()
 
 	go func() {
+		log.Info().Msgf("listening on \n", mainServer.Addr)
 		err = mainServer.ListenAndServe()
 		switch {
 		case err != nil:
