@@ -18,7 +18,7 @@ help: ## 💬 This help message :)
 
 build: ## 🔨 Build development binaries for Linux
 	@go mod tidy
-	GOOS=linux go build -o bin/$(BINARY_NAME) $(LDFLAGS) $(GCFLAGS) -debug-trace=tmp/trace.json main.go
+	GOOS=linux GOARCH=amd64 go build -o bin/$(BINARY_NAME) $(LDFLAGS) $(GCFLAGS) -debug-trace=tmp/trace.json main.go
 
 run: ## 󰜎 Build development binaries for Linux
 	 go run main.go
