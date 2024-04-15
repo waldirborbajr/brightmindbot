@@ -111,7 +111,7 @@ func main() {
 	}()
 
 	go func() {
-		log.Info().Msgf("listening on \n", mainServer.Addr)
+		log.Info().Msgf("listening on %v\n", mainServer.Addr)
 		err = mainServer.ListenAndServe()
 		switch {
 		case err != nil:

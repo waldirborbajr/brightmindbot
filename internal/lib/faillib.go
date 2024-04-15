@@ -1,6 +1,8 @@
 package lib
 
-import "github.com/rs/zerolog/log"
+import (
+	"github.com/rs/zerolog/log"
+)
 
 func FailOnError(err error) {
 	switch {
