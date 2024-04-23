@@ -14,24 +14,17 @@ import (
 	"github.com/go-telegram/bot/models"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+	"github.com/waldirborbajr/brightmindbot/internal/env"
 )
 
 func main() {
 	setupLog()
 
 	// Recover Telegram token from env
-	TELEGRAM_TOKEN := os.Getenv("TELEGRAM_TOKEN")
-	switch TELEGRAM_TOKEN {
-	case "":
-		log.Fatal().Msg("TELEGRAM_TOKEN not set")
-	}
+	TELEGRAM_TOKEN := env.MustGetString("TELEGRAM_TOKEN")
 
 	// Recever Webhook URL from env
-	TELEGRAM_WEBHOOK := os.Getenv("TELEGRAM_WEBHOOK")
-	switch TELEGRAM_WEBHOOK {
-	case "":
-		log.Fatal().Msg("TELEGRAM_WEBHOOK not set")
-	}
+	TELEGRAM_WEBHOOK := env.MustGetString("TELEGRAM_WEBHOOK")
 
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, os.Kill)
 
@@ -59,12 +52,7 @@ func main() {
 
 	go tgbot.StartWebhook(ctx)
 
-	BOT_PORT := os.Getenv("BOT_PORT")
-	switch BOT_PORT {
-	case "":
-		log.Info().Msg("BOT_PORT not set. Assuming deafault port :3000")
-		BOT_PORT = "3000"
-	}
+	BOT_PORT := env.GetString("PORT", "3000")
 
 	log.Info().Msgf("BOT_PORT: %s", BOT_PORT)
 
@@ -160,7 +148,7 @@ func setupLog() {
 	// so don't do that here; do make error logging consistent with NodeJS however
 	zerolog.ErrorFieldName = "err"
 
-	switch os.Getenv("ENVIRONMENT") {
+	switch env.MustGetString("ENVIRONMENT") {
 	case "dev":
 		zerolog.SetGlobalLevel(zerolog.ErrorLevel)
 		// zerolog.SetGlobalLevel(zerolog.DebugLevel)
@@ -169,6 +157,7 @@ func setupLog() {
 		zerolog.SetGlobalLevel(zerolog.InfoLevel)
 		zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	}
+
 	log.Logger = zerolog.New(os.Stdout).
 		With().
 		Timestamp().
