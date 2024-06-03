@@ -3,15 +3,17 @@ include .boturl
 export CGO_ENABLED=0
 # export
 
-BINARY_NAME = bombot
+BINARY_NAME=brightmindbot
 # GIT_TAG = $(shell git describe --tags --always)
 # LDFLAGS = -X 'main.GitTag=$(GIT_TAG)' -w -s
 
 GCFLAGS =
 debug: GCFLAGS += -gcflags=all='-l -N'
 
-VERSION ?= $(shell git rev-parse --short HEAD)
-LDFLAGS = -ldflags '-s -w -X main.BuildVersion=$(VERSION)'
+VERSION=$(shell cat VERSION)
+# VERSION ?= $(shell git rev-parse --short HEAD)
+LDFLAGS=-ldflags '-s -w -X main.BuildVersion=$(VERSION)'
+PROJECT=wadlriborbajr/brightmindbot
 
 help: ## 💬 This help message :)
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
@@ -27,8 +29,8 @@ air:
 	air go run main.go
 
 clean: ## ♻️  Clean up
-	@rm -rf bin
-	@rm $(GOBIN)/$(BINARY_NAME)
+	@rm -rf bin/
+	# @rm $(GOBIN)/$(BINARY_NAME)
 
 cache: ## ♻️  Clean up
 	go clean -modcache
@@ -63,3 +65,6 @@ gencert:
 	openssl genrsa -out localhost.key 2048
 	openssl req -new -key localhost.key -out localhost.csr -subj "/C=BR/ST=Paraná/L=Curitiba/O=Personal/OU=TI/CN=DevOps"
 	openssl x509 -req -in localhost.csr -passin file:pwd.txt -pubout -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out localhost.crt -days 500 -sha256
+
+image:
+	@docker build . -t $(PROJECT):$(VERSION)
