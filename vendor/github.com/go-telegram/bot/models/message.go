@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // MaybeInaccessibleMessageType https://core.telegram.org/bots/api#maybeinaccessiblemessage
@@ -38,6 +39,17 @@ func (mim *MaybeInaccessibleMessage) UnmarshalJSON(data []byte) error {
 	mim.Type = MaybeInaccessibleMessageTypeMessage
 	mim.Message = &Message{}
 	return json.Unmarshal(data, mim.Message)
+}
+
+func (mim *MaybeInaccessibleMessage) MarshalJSON() ([]byte, error) {
+	switch mim.Type {
+	case MaybeInaccessibleMessageTypeMessage:
+		return json.Marshal(mim.Message)
+	case MaybeInaccessibleMessageTypeInaccessibleMessage:
+		return json.Marshal(mim.InaccessibleMessage)
+	}
+
+	return nil, fmt.Errorf("unsupported MaybeInaccessibleMessage type")
 }
 
 // InaccessibleMessage https://core.telegram.org/bots/api#inaccessiblemessage
@@ -83,9 +95,11 @@ type Message struct {
 	Text                          string                         `json:"text,omitempty"`
 	Entities                      []MessageEntity                `json:"entities,omitempty"`
 	LinkPreviewOptions            *LinkPreviewOptions            `json:"link_preview_options,omitempty"`
+	EffectID                      string                         `json:"effect_id,omitempty"`
 	Animation                     *Animation                     `json:"animation,omitempty"`
 	Audio                         *Audio                         `json:"audio,omitempty"`
 	Document                      *Document                      `json:"document,omitempty"`
+	PaidMedia                     *PaidMediaInfo                 `json:"paid_media,omitempty"`
 	Photo                         []PhotoSize                    `json:"photo,omitempty"`
 	Sticker                       *Sticker                       `json:"sticker,omitempty"`
 	Story                         *Story                         `json:"story,omitempty"`
@@ -94,6 +108,7 @@ type Message struct {
 	Voice                         *Voice                         `json:"voice,omitempty"`
 	Caption                       string                         `json:"caption,omitempty"`
 	CaptionEntities               []MessageEntity                `json:"caption_entities,omitempty"`
+	ShowCaptionAboveMedia         bool                           `json:"show_caption_above_media,omitempty"`
 	HasMediaSpoiler               bool                           `json:"has_media_spoiler,omitempty"`
 	Contact                       *Contact                       `json:"contact,omitempty"`
 	Dice                          *Dice                          `json:"dice,omitempty"`
@@ -115,6 +130,7 @@ type Message struct {
 	PinnedMessage                 MaybeInaccessibleMessage       `json:"pinned_message,omitempty"`
 	Invoice                       *Invoice                       `json:"invoice,omitempty"`
 	SuccessfulPayment             *SuccessfulPayment             `json:"successful_payment,omitempty"`
+	RefundedPayment               *RefundedPayment               `json:"refunded_payment,omitempty"`
 	UsersShared                   *UsersShared                   `json:"users_shared,omitempty"`
 	ChatShared                    *ChatShared                    `json:"chat_shared,omitempty"`
 	ConnectedWebsite              string                         `json:"connected_website,omitempty"`
@@ -122,6 +138,7 @@ type Message struct {
 	PassportData                  *PassportData                  `json:"passport_data,omitempty"`
 	ProximityAlertTriggered       *ProximityAlertTriggered       `json:"proximity_alert_triggered,omitempty"`
 	BoostAdded                    *ChatBoostAdded                `json:"boost_added,omitempty"`
+	ChatBackgroundSet             *ChatBackground                `json:"chat_background_set,omitempty"`
 	ForumTopicCreated             *ForumTopicCreated             `json:"forum_topic_created,omitempty"`
 	ForumTopicEdited              *ForumTopicEdited              `json:"forum_topic_edited,omitempty"`
 	ForumTopicClosed              *ForumTopicClosed              `json:"forum_topic_closed,omitempty"`

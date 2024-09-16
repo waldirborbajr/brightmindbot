@@ -80,10 +80,30 @@ type Birthdate struct {
 	Year  int `json:"year,omitempty"`
 }
 
+type ChatType string
+
+const (
+	ChatTypePrivate    ChatType = "private"
+	ChatTypeGroup      ChatType = "group"
+	ChatTypeSupergroup ChatType = "supergroup"
+	ChatTypeChannel    ChatType = "channel"
+)
+
 // Chat https://core.telegram.org/bots/api#chat
 type Chat struct {
+	ID        int64    `json:"id"`
+	Type      ChatType `json:"type"`
+	Title     string   `json:"title,omitempty"`
+	Username  string   `json:"username,omitempty"`
+	FirstName string   `json:"first_name,omitempty"`
+	LastName  string   `json:"last_name,omitempty"`
+	IsForum   bool     `json:"is_forum,omitempty"`
+}
+
+// ChatFullInfo https://core.telegram.org/bots/api#chatfullinfo
+type ChatFullInfo struct {
 	ID                                 int64                 `json:"id"`
-	Type                               string                `json:"type"`
+	Type                               ChatType              `json:"type"`
 	Title                              string                `json:"title,omitempty"`
 	Username                           string                `json:"username,omitempty"`
 	FirstName                          string                `json:"first_name,omitempty"`
@@ -98,6 +118,7 @@ type Chat struct {
 	PersonalChat                       *Chat                 `json:"personal_chat,omitempty"`
 	AvailableReactions                 []ReactionType        `json:"available_reactions,omitempty"`
 	AccentColorID                      int                   `json:"accent_color_id,omitempty"`
+	MaxReactionCount                   int                   `json:"max_reaction_count"`
 	BackgroundCustomEmojiID            string                `json:"background_custom_emoji_id,omitempty"`
 	ProfileAccentColorID               int                   `json:"profile_accent_color_id,omitempty"`
 	ProfileBackgroundCustomEmojiID     string                `json:"profile_background_custom_emoji_id,omitempty"`
@@ -112,6 +133,7 @@ type Chat struct {
 	InviteLink                         string                `json:"invite_link,omitempty"`
 	PinnedMessage                      *Message              `json:"pinned_message,omitempty"`
 	Permissions                        *ChatPermissions      `json:"permissions,omitempty"`
+	CanSendPaidMedia                   bool                  `json:"can_send_paid_media,omitempty"`
 	SlowModeDelay                      int                   `json:"slow_mode_delay,omitempty"`
 	UnrestrictBoostCount               int                   `json:"unrestrict_boost_count,omitempty"`
 	MessageAutoDeleteTime              int                   `json:"message_auto_delete_time,omitempty"`

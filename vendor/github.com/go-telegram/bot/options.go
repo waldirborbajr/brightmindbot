@@ -102,3 +102,24 @@ func WithUpdatesChannelCap(cap int) Option {
 		b.updates = make(chan *models.Update, cap)
 	}
 }
+
+// WithWebhookSecretToken allows setting X-Telegram-Bot-Api-Secret-Token sent from Telegram servers
+func WithWebhookSecretToken(webhookSecretToken string) Option {
+	return func(b *Bot) {
+		b.webhookSecretToken = webhookSecretToken
+	}
+}
+
+// WithWorkers allows setting the number of workers that are processing the Updates channel
+func WithWorkers(workers int) Option {
+	return func(b *Bot) {
+		b.workers = workers
+	}
+}
+
+// UseTestEnvironment allows to use test environment
+func UseTestEnvironment() Option {
+	return func(b *Bot) {
+		b.testEnvironment = true
+	}
+}
