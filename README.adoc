@@ -2,6 +2,7 @@
 
 ifdef::env-github[]
 ++++
+<img src="https://github.com/user-attachments/assets/9fb07638-5907-4915-b9bf-1ca89255a93d" alt="drawing" style="width:100px;"/>
 <p align="center">
   <img width="200" height="256" src="./assets/brightmindbot-logo.png">
 </p>
@@ -16,7 +17,7 @@ endif::[]
 
 `tl;dr:` I´m a Telegram Bot that on day in the future I´ll be integrated with LLM. Please wait. :)
 
-***BETA***: This project is in active development. Please check out the issues and contribute if you're interested in helping out.
+***UNDER CONSTRUCTION***: This project is in active development. Please check out the issues and contribute if you're interested in helping out.
 
 == Technology
 
