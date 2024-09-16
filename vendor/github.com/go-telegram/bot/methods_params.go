@@ -29,6 +29,7 @@ type SendMessageParams struct {
 	LinkPreviewOptions   *models.LinkPreviewOptions `json:"link_preview_options,omitempty"`
 	DisableNotification  bool                       `json:"disable_notification,omitempty"`
 	ProtectContent       bool                       `json:"protect_content,omitempty"`
+	MessageEffectID      string                     `json:"message_effect_id,omitempty"`
 	ReplyParameters      *models.ReplyParameters    `json:"reply_parameters,omitempty"`
 	ReplyMarkup          models.ReplyMarkup         `json:"reply_markup,omitempty"`
 }
@@ -55,17 +56,18 @@ type ForwardMessagesParams struct {
 
 // CopyMessageParams https://core.telegram.org/bots/api#copymessage
 type CopyMessageParams struct {
-	ChatID              any                     `json:"chat_id"`
-	MessageThreadID     int                     `json:"message_thread_id,omitempty"`
-	FromChatID          string                  `json:"from_chat_id"`
-	MessageID           int                     `json:"message_id"`
-	Caption             string                  `json:"caption,omitempty"`
-	ParseMode           models.ParseMode        `json:"parse_mode,omitempty"`
-	CaptionEntities     []models.MessageEntity  `json:"caption_entities,omitempty"`
-	DisableNotification bool                    `json:"disable_notification,omitempty"`
-	ProtectContent      bool                    `json:"protect_content,omitempty"`
-	ReplyParameters     *models.ReplyParameters `json:"reply_parameters,omitempty"`
-	ReplyMarkup         models.ReplyMarkup      `json:"reply_markup,omitempty"`
+	ChatID                any                     `json:"chat_id"`
+	MessageThreadID       int                     `json:"message_thread_id,omitempty"`
+	FromChatID            string                  `json:"from_chat_id"`
+	MessageID             int                     `json:"message_id"`
+	Caption               string                  `json:"caption,omitempty"`
+	ParseMode             models.ParseMode        `json:"parse_mode,omitempty"`
+	CaptionEntities       []models.MessageEntity  `json:"caption_entities,omitempty"`
+	ShowCaptionAboveMedia bool                    `json:"show_caption_above_media,omitempty"`
+	DisableNotification   bool                    `json:"disable_notification,omitempty"`
+	ProtectContent        bool                    `json:"protect_content,omitempty"`
+	ReplyParameters       *models.ReplyParameters `json:"reply_parameters,omitempty"`
+	ReplyMarkup           models.ReplyMarkup      `json:"reply_markup,omitempty"`
 }
 
 // CopyMessagesParams https://core.telegram.org/bots/api#copymessages
@@ -81,18 +83,20 @@ type CopyMessagesParams struct {
 
 // SendPhotoParams https://core.telegram.org/bots/api#sendphoto
 type SendPhotoParams struct {
-	BusinessConnectionID string                  `json:"business_connection_id,omitempty"`
-	ChatID               any                     `json:"chat_id"`
-	MessageThreadID      int                     `json:"message_thread_id,omitempty"`
-	Photo                models.InputFile        `json:"photo"`
-	Caption              string                  `json:"caption,omitempty"`
-	ParseMode            models.ParseMode        `json:"parse_mode,omitempty"`
-	CaptionEntities      []models.MessageEntity  `json:"caption_entities,omitempty"`
-	HasSpoiler           bool                    `json:"has_spoiler,omitempty"`
-	DisableNotification  bool                    `json:"disable_notification,omitempty"`
-	ProtectContent       bool                    `json:"protect_content,omitempty"`
-	ReplyParameters      *models.ReplyParameters `json:"reply_parameters,omitempty"`
-	ReplyMarkup          models.ReplyMarkup      `json:"reply_markup,omitempty"`
+	BusinessConnectionID  string                  `json:"business_connection_id,omitempty"`
+	ChatID                any                     `json:"chat_id"`
+	MessageThreadID       int                     `json:"message_thread_id,omitempty"`
+	Photo                 models.InputFile        `json:"photo"`
+	Caption               string                  `json:"caption,omitempty"`
+	ParseMode             models.ParseMode        `json:"parse_mode,omitempty"`
+	CaptionEntities       []models.MessageEntity  `json:"caption_entities,omitempty"`
+	ShowCaptionAboveMedia bool                    `json:"show_caption_above_media,omitempty"`
+	HasSpoiler            bool                    `json:"has_spoiler,omitempty"`
+	DisableNotification   bool                    `json:"disable_notification,omitempty"`
+	ProtectContent        bool                    `json:"protect_content,omitempty"`
+	MessageEffectID       string                  `json:"message_effect_id,omitempty"`
+	ReplyParameters       *models.ReplyParameters `json:"reply_parameters,omitempty"`
+	ReplyMarkup           models.ReplyMarkup      `json:"reply_markup,omitempty"`
 }
 
 // SendAudioParams https://core.telegram.org/bots/api#sendaudio
@@ -110,6 +114,7 @@ type SendAudioParams struct {
 	Thumbnail            models.InputFile        `json:"thumbnail,omitempty"`
 	DisableNotification  bool                    `json:"disable_notification,omitempty"`
 	ProtectContent       bool                    `json:"protect_content,omitempty"`
+	MessageEffectID      string                  `json:"message_effect_id,omitempty"`
 	ReplyParameters      *models.ReplyParameters `json:"reply_parameters,omitempty"`
 	ReplyMarkup          models.ReplyMarkup      `json:"reply_markup,omitempty"`
 }
@@ -127,49 +132,54 @@ type SendDocumentParams struct {
 	DisableContentTypeDetection bool                    `json:"disable_content_type_detection,omitempty"`
 	DisableNotification         bool                    `json:"disable_notification,omitempty"`
 	ProtectContent              bool                    `json:"protect_content,omitempty"`
+	MessageEffectID             string                  `json:"message_effect_id,omitempty"`
 	ReplyParameters             *models.ReplyParameters `json:"reply_parameters,omitempty"`
 	ReplyMarkup                 models.ReplyMarkup      `json:"reply_markup,omitempty"`
 }
 
 // SendVideoParams https://core.telegram.org/bots/api#sendvideo
 type SendVideoParams struct {
-	BusinessConnectionID string                  `json:"business_connection_id,omitempty"`
-	ChatID               any                     `json:"chat_id"`
-	MessageThreadID      int                     `json:"message_thread_id,omitempty"`
-	Video                models.InputFile        `json:"video"`
-	Duration             int                     `json:"duration,omitempty"`
-	Width                int                     `json:"width,omitempty"`
-	Height               int                     `json:"height,omitempty"`
-	Thumbnail            models.InputFile        `json:"thumbnail,omitempty"`
-	Caption              string                  `json:"caption,omitempty"`
-	ParseMode            models.ParseMode        `json:"parse_mode,omitempty"`
-	CaptionEntities      []models.MessageEntity  `json:"caption_entities,omitempty"`
-	HasSpoiler           bool                    `json:"has_spoiler,omitempty"`
-	SupportsStreaming    bool                    `json:"supports_streaming,omitempty"`
-	DisableNotification  bool                    `json:"disable_notification,omitempty"`
-	ProtectContent       bool                    `json:"protect_content,omitempty"`
-	ReplyParameters      *models.ReplyParameters `json:"reply_parameters,omitempty"`
-	ReplyMarkup          models.ReplyMarkup      `json:"reply_markup,omitempty"`
+	BusinessConnectionID  string                  `json:"business_connection_id,omitempty"`
+	ChatID                any                     `json:"chat_id"`
+	MessageThreadID       int                     `json:"message_thread_id,omitempty"`
+	Video                 models.InputFile        `json:"video"`
+	Duration              int                     `json:"duration,omitempty"`
+	Width                 int                     `json:"width,omitempty"`
+	Height                int                     `json:"height,omitempty"`
+	Thumbnail             models.InputFile        `json:"thumbnail,omitempty"`
+	Caption               string                  `json:"caption,omitempty"`
+	ParseMode             models.ParseMode        `json:"parse_mode,omitempty"`
+	CaptionEntities       []models.MessageEntity  `json:"caption_entities,omitempty"`
+	ShowCaptionAboveMedia bool                    `json:"show_caption_above_media,omitempty"`
+	HasSpoiler            bool                    `json:"has_spoiler,omitempty"`
+	SupportsStreaming     bool                    `json:"supports_streaming,omitempty"`
+	DisableNotification   bool                    `json:"disable_notification,omitempty"`
+	ProtectContent        bool                    `json:"protect_content,omitempty"`
+	MessageEffectID       string                  `json:"message_effect_id,omitempty"`
+	ReplyParameters       *models.ReplyParameters `json:"reply_parameters,omitempty"`
+	ReplyMarkup           models.ReplyMarkup      `json:"reply_markup,omitempty"`
 }
 
 // SendAnimationParams https://core.telegram.org/bots/api#sendanimation
 type SendAnimationParams struct {
-	BusinessConnectionID string                  `json:"business_connection_id,omitempty"`
-	ChatID               any                     `json:"chat_id"`
-	MessageThreadID      int                     `json:"message_thread_id,omitempty"`
-	Animation            models.InputFile        `json:"animation"`
-	Duration             int                     `json:"duration,omitempty"`
-	Width                int                     `json:"width,omitempty"`
-	Height               int                     `json:"height,omitempty"`
-	Thumbnail            models.InputFile        `json:"thumbnail,omitempty"`
-	Caption              string                  `json:"caption,omitempty"`
-	ParseMode            models.ParseMode        `json:"parse_mode,omitempty"`
-	CaptionEntities      []models.MessageEntity  `json:"caption_entities,omitempty"`
-	HasSpoiler           bool                    `json:"has_spoiler,omitempty"`
-	DisableNotification  bool                    `json:"disable_notification,omitempty"`
-	ProtectContent       bool                    `json:"protect_content,omitempty"`
-	ReplyParameters      *models.ReplyParameters `json:"reply_parameters,omitempty"`
-	ReplyMarkup          models.ReplyMarkup      `json:"reply_markup,omitempty"`
+	BusinessConnectionID  string                  `json:"business_connection_id,omitempty"`
+	ChatID                any                     `json:"chat_id"`
+	MessageThreadID       int                     `json:"message_thread_id,omitempty"`
+	Animation             models.InputFile        `json:"animation"`
+	Duration              int                     `json:"duration,omitempty"`
+	Width                 int                     `json:"width,omitempty"`
+	Height                int                     `json:"height,omitempty"`
+	Thumbnail             models.InputFile        `json:"thumbnail,omitempty"`
+	Caption               string                  `json:"caption,omitempty"`
+	ParseMode             models.ParseMode        `json:"parse_mode,omitempty"`
+	CaptionEntities       []models.MessageEntity  `json:"caption_entities,omitempty"`
+	ShowCaptionAboveMedia bool                    `json:"show_caption_above_media,omitempty"`
+	HasSpoiler            bool                    `json:"has_spoiler,omitempty"`
+	DisableNotification   bool                    `json:"disable_notification,omitempty"`
+	ProtectContent        bool                    `json:"protect_content,omitempty"`
+	MessageEffectID       string                  `json:"message_effect_id,omitempty"`
+	ReplyParameters       *models.ReplyParameters `json:"reply_parameters,omitempty"`
+	ReplyMarkup           models.ReplyMarkup      `json:"reply_markup,omitempty"`
 }
 
 // SendVoiceParams https://core.telegram.org/bots/api#sendvoice
@@ -184,6 +194,7 @@ type SendVoiceParams struct {
 	Duration             int                     `json:"duration,omitempty"`
 	DisableNotification  bool                    `json:"disable_notification,omitempty"`
 	ProtectContent       bool                    `json:"protect_content,omitempty"`
+	MessageEffectID      string                  `json:"message_effect_id,omitempty"`
 	ReplyParameters      *models.ReplyParameters `json:"reply_parameters,omitempty"`
 	ReplyMarkup          models.ReplyMarkup      `json:"reply_markup,omitempty"`
 }
@@ -199,8 +210,26 @@ type SendVideoNoteParams struct {
 	Thumbnail            models.InputFile        `json:"thumbnail,omitempty"`
 	DisableNotification  bool                    `json:"disable_notification,omitempty"`
 	ProtectContent       bool                    `json:"protect_content,omitempty"`
+	MessageEffectID      string                  `json:"message_effect_id,omitempty"`
 	ReplyParameters      *models.ReplyParameters `json:"reply_parameters,omitempty"`
 	ReplyMarkup          models.ReplyMarkup      `json:"reply_markup,omitempty"`
+}
+
+// SendPaidMediaParams https://core.telegram.org/bots/api#sendpaidmedia
+type SendPaidMediaParams struct {
+	BusinessConnectionID  string                  `json:"business_connection_id,omitempty"`
+	ChatID                any                     `json:"chat_id"`
+	StarCount             int                     `json:"star_count"`
+	Media                 []models.InputPaidMedia `json:"media"`
+	Payload               string                  `json:"payload,omitempty"`
+	Caption               string                  `json:"caption,omitempty"`
+	ParseMode             models.ParseMode        `json:"parse_mode,omitempty"`
+	CaptionEntities       []models.MessageEntity  `json:"caption_entities,omitempty"`
+	ShowCaptionAboveMedia bool                    `json:"show_caption_above_media,omitempty"`
+	DisableNotification   bool                    `json:"disable_notification,omitempty"`
+	ProtectContent        bool                    `json:"protect_content,omitempty"`
+	ReplyParameters       *models.ReplyParameters `json:"reply_parameters,omitempty"`
+	ReplyMarkup           models.ReplyMarkup      `json:"reply_markup,omitempty"`
 }
 
 // SendMediaGroupParams https://core.telegram.org/bots/api#sendmediagroup
@@ -211,6 +240,7 @@ type SendMediaGroupParams struct {
 	Media                []models.InputMedia     `json:"media"`
 	DisableNotification  bool                    `json:"disable_notification,omitempty"`
 	ProtectContent       bool                    `json:"protect_content,omitempty"`
+	MessageEffectID      string                  `json:"message_effect_id,omitempty"`
 	ReplyParameters      *models.ReplyParameters `json:"reply_parameters,omitempty"`
 }
 
@@ -227,16 +257,19 @@ type SendLocationParams struct {
 	ProximityAlertRadius int                     `json:"proximity_alert_radius,omitempty"`
 	DisableNotification  bool                    `json:"disable_notification,omitempty"`
 	ProtectContent       bool                    `json:"protect_content,omitempty"`
+	MessageEffectID      string                  `json:"message_effect_id,omitempty"`
 	ReplyParameters      *models.ReplyParameters `json:"reply_parameters,omitempty"`
 	ReplyMarkup          models.ReplyMarkup      `json:"reply_markup,omitempty"`
 }
 
 type EditMessageLiveLocationParams struct {
-	ChatID               any                `json:"chat_id"`
+	BusinessConnectionID string             `json:"business_connection_id,omitempty"`
+	ChatID               any                `json:"chat_id,omitempty"`
 	MessageID            int                `json:"message_id,omitempty"`
 	InlineMessageID      string             `json:"inline_message_id,omitempty"`
 	Latitude             float64            `json:"latitude"`
 	Longitude            float64            `json:"longitude"`
+	LivePeriod           int                `json:"live_period,omitempty"`
 	HorizontalAccuracy   float64            `json:"horizontal_accuracy,omitempty"`
 	Heading              int                `json:"heading,omitempty"`
 	ProximityAlertRadius int                `json:"proximity_alert_radius,omitempty"`
@@ -244,10 +277,11 @@ type EditMessageLiveLocationParams struct {
 }
 
 type StopMessageLiveLocationParams struct {
-	ChatID          any                `json:"chat_id,omitempty"`
-	MessageID       int                `json:"message_id,omitempty"`
-	InlineMessageID string             `json:"inline_message_id,omitempty"`
-	ReplyMarkup     models.ReplyMarkup `json:"reply_markup,omitempty"`
+	BusinessConnectionID string             `json:"business_connection_id,omitempty"`
+	ChatID               any                `json:"chat_id,omitempty"`
+	MessageID            int                `json:"message_id,omitempty"`
+	InlineMessageID      string             `json:"inline_message_id,omitempty"`
+	ReplyMarkup          models.ReplyMarkup `json:"reply_markup,omitempty"`
 }
 
 // SendVenueParams https://core.telegram.org/bots/api#sendvenue
@@ -265,6 +299,7 @@ type SendVenueParams struct {
 	GooglePlaceType      string                  `json:"google_place_type,omitempty"`
 	DisableNotification  bool                    `json:"disable_notification,omitempty"`
 	ProtectContent       bool                    `json:"protect_content,omitempty"`
+	MessageEffectID      string                  `json:"message_effect_id,omitempty"`
 	ReplyParameters      *models.ReplyParameters `json:"reply_parameters,omitempty"`
 	ReplyMarkup          models.ReplyMarkup      `json:"reply_markup,omitempty"`
 }
@@ -280,31 +315,35 @@ type SendContactParams struct {
 	VCard                string                  `json:"vcard,omitempty"`
 	DisableNotification  bool                    `json:"disable_notification,omitempty"`
 	ProtectContent       bool                    `json:"protect_content,omitempty"`
+	MessageEffectID      string                  `json:"message_effect_id,omitempty"`
 	ReplyParameters      *models.ReplyParameters `json:"reply_parameters,omitempty"`
 	ReplyMarkup          models.ReplyMarkup      `json:"reply_markup,omitempty"`
 }
 
 // SendPollParams https://core.telegram.org/bots/api#sendpoll
 type SendPollParams struct {
-	BusinessConnectionID  string                  `json:"business_connection_id,omitempty"`
-	ChatID                any                     `json:"chat_id"`
-	MessageThreadID       int                     `json:"message_thread_id,omitempty"`
-	Question              string                  `json:"question"`
-	Options               []string                `json:"options"`
-	IsAnonymous           *bool                   `json:"is_anonymous,omitempty"`
-	Type                  string                  `json:"type,omitempty"`
-	AllowsMultipleAnswers bool                    `json:"allows_multiple_answers,omitempty"`
-	CorrectOptionID       int                     `json:"correct_option_id"`
-	Explanation           string                  `json:"explanation,omitempty"`
-	ExplanationParseMode  string                  `json:"explanation_parse_mode,omitempty"`
-	ExplanationEntities   []models.MessageEntity  `json:"explanation_entities,omitempty"`
-	OpenPeriod            int                     `json:"open_period,omitempty"`
-	CloseDate             int                     `json:"close_date,omitempty"`
-	IsClosed              bool                    `json:"is_closed,omitempty"`
-	DisableNotification   bool                    `json:"disable_notification,omitempty"`
-	ProtectContent        bool                    `json:"protect_content,omitempty"`
-	ReplyParameters       *models.ReplyParameters `json:"reply_parameters,omitempty"`
-	ReplyMarkup           models.ReplyMarkup      `json:"reply_markup,omitempty"`
+	BusinessConnectionID  string                   `json:"business_connection_id,omitempty"`
+	ChatID                any                      `json:"chat_id"`
+	MessageThreadID       int                      `json:"message_thread_id,omitempty"`
+	Question              string                   `json:"question"`
+	QuestionParseMode     models.ParseMode         `json:"question_parse_mode,omitempty"`
+	QuestionEntities      []models.MessageEntity   `json:"question_entities,omitempty"`
+	Options               []models.InputPollOption `json:"options"`
+	IsAnonymous           *bool                    `json:"is_anonymous,omitempty"`
+	Type                  string                   `json:"type,omitempty"`
+	AllowsMultipleAnswers bool                     `json:"allows_multiple_answers,omitempty"`
+	CorrectOptionID       int                      `json:"correct_option_id"`
+	Explanation           string                   `json:"explanation,omitempty"`
+	ExplanationParseMode  string                   `json:"explanation_parse_mode,omitempty"`
+	ExplanationEntities   []models.MessageEntity   `json:"explanation_entities,omitempty"`
+	OpenPeriod            int                      `json:"open_period,omitempty"`
+	CloseDate             int                      `json:"close_date,omitempty"`
+	IsClosed              bool                     `json:"is_closed,omitempty"`
+	DisableNotification   bool                     `json:"disable_notification,omitempty"`
+	ProtectContent        bool                     `json:"protect_content,omitempty"`
+	MessageEffectID       string                   `json:"message_effect_id,omitempty"`
+	ReplyParameters       *models.ReplyParameters  `json:"reply_parameters,omitempty"`
+	ReplyMarkup           models.ReplyMarkup       `json:"reply_markup,omitempty"`
 }
 
 // SendDiceParams https://core.telegram.org/bots/api#senddice
@@ -315,6 +354,7 @@ type SendDiceParams struct {
 	Emoji                string                  `json:"emoji,omitempty"`
 	DisableNotification  bool                    `json:"disable_notification,omitempty"`
 	ProtectContent       bool                    `json:"protect_content,omitempty"`
+	MessageEffectID      string                  `json:"message_effect_id,omitempty"`
 	ReplyParameters      *models.ReplyParameters `json:"reply_parameters,omitempty"`
 	ReplyMarkup          models.ReplyMarkup      `json:"reply_markup,omitempty"`
 }
@@ -426,6 +466,19 @@ type EditChatInviteLinkParams struct {
 	ExpireDate         int    `json:"expire_date,omitempty"`
 	MemberLimit        int    `json:"member_limit,omitempty"`
 	CreatesJoinRequest bool   `json:"creates_join_request,omitempty"`
+}
+
+type CreateChatSubscriptionInviteLinkParams struct {
+	ChatID             any    `json:"chat_id"`
+	Name               string `json:"name,omitempty"`
+	SubscriptionPeriod int    `json:"subscription_period"`
+	SubscriptionPrice  int    `json:"subscription_price"`
+}
+
+type EditChatSubscriptionInviteLinkParams struct {
+	ChatID     any    `json:"chat_id"`
+	InviteLink string `json:"invite_link"`
+	Name       string `json:"name,omitempty"`
 }
 
 type RevokeChatInviteLinkParams struct {
@@ -644,46 +697,52 @@ type GetMyDefaultAdministratorRightsParams struct {
 
 // EditMessageTextParams https://core.telegram.org/bots/api#editmessagetext
 type EditMessageTextParams struct {
-	ChatID             any                        `json:"chat_id"`
-	MessageID          int                        `json:"message_id,omitempty"`
-	InlineMessageID    string                     `json:"inline_message_id,omitempty"`
-	Text               string                     `json:"text"`
-	ParseMode          models.ParseMode           `json:"parse_mode,omitempty"`
-	Entities           []models.MessageEntity     `json:"entities,omitempty"`
-	LinkPreviewOptions *models.LinkPreviewOptions `json:"link_preview_options,omitempty"`
-	ReplyMarkup        models.ReplyMarkup         `json:"reply_markup,omitempty"`
+	BusinessConnectionID string                     `json:"business_connection_id,omitempty"`
+	ChatID               any                        `json:"chat_id,omitempty"`
+	MessageID            int                        `json:"message_id,omitempty"`
+	InlineMessageID      string                     `json:"inline_message_id,omitempty"`
+	Text                 string                     `json:"text"`
+	ParseMode            models.ParseMode           `json:"parse_mode,omitempty"`
+	Entities             []models.MessageEntity     `json:"entities,omitempty"`
+	LinkPreviewOptions   *models.LinkPreviewOptions `json:"link_preview_options,omitempty"`
+	ReplyMarkup          models.ReplyMarkup         `json:"reply_markup,omitempty"`
 }
 
 type EditMessageCaptionParams struct {
-	ChatID                any                    `json:"chat_id"`
+	BusinessConnectionID  string                 `json:"business_connection_id,omitempty"`
+	ChatID                any                    `json:"chat_id,omitempty"`
 	MessageID             int                    `json:"message_id,omitempty"`
 	InlineMessageID       string                 `json:"inline_message_id,omitempty"`
 	Caption               string                 `json:"caption,omitempty"`
 	ParseMode             models.ParseMode       `json:"parse_mode,omitempty"`
 	CaptionEntities       []models.MessageEntity `json:"caption_entities,omitempty"`
+	ShowCaptionAboveMedia bool                   `json:"k,omitempty"`
 	DisableWebPagePreview bool                   `json:"disable_web_page_preview,omitempty"`
 	ReplyMarkup           models.ReplyMarkup     `json:"reply_markup,omitempty"`
 }
 
 type EditMessageMediaParams struct {
-	ChatID          any                `json:"chat_id"`
-	MessageID       int                `json:"message_id,omitempty"`
-	InlineMessageID string             `json:"inline_message_id,omitempty"`
-	Media           models.InputMedia  `json:"media"`
-	ReplyMarkup     models.ReplyMarkup `json:"reply_markup,omitempty"`
+	BusinessConnectionID string             `json:"business_connection_id,omitempty"`
+	ChatID               any                `json:"chat_id,omitempty"`
+	MessageID            int                `json:"message_id,omitempty"`
+	InlineMessageID      string             `json:"inline_message_id,omitempty"`
+	Media                models.InputMedia  `json:"media"`
+	ReplyMarkup          models.ReplyMarkup `json:"reply_markup,omitempty"`
 }
 
 type EditMessageReplyMarkupParams struct {
-	ChatID          any                `json:"chat_id"`
-	MessageID       int                `json:"message_id,omitempty"`
-	InlineMessageID string             `json:"inline_message_id,omitempty"`
-	ReplyMarkup     models.ReplyMarkup `json:"reply_markup,omitempty"`
+	BusinessConnectionID string             `json:"business_connection_id,omitempty"`
+	ChatID               any                `json:"chat_id,omitempty"`
+	MessageID            int                `json:"message_id,omitempty"`
+	InlineMessageID      string             `json:"inline_message_id,omitempty"`
+	ReplyMarkup          models.ReplyMarkup `json:"reply_markup,omitempty"`
 }
 
 type StopPollParams struct {
-	ChatID      any                `json:"chat_id"`
-	MessageID   int                `json:"message_id"`
-	ReplyMarkup models.ReplyMarkup `json:"reply_markup,omitempty"`
+	BusinessConnectionID string             `json:"business_connection_id,omitempty"`
+	ChatID               any                `json:"chat_id"`
+	MessageID            int                `json:"message_id"`
+	ReplyMarkup          models.ReplyMarkup `json:"reply_markup,omitempty"`
 }
 
 // DeleteMessageParams https://core.telegram.org/bots/api#deletemessage
@@ -707,6 +766,7 @@ type SendStickerParams struct {
 	Emoji                string                  `json:"emoji,omitempty"`
 	DisableNotification  bool                    `json:"disable_notification,omitempty"`
 	ProtectContent       bool                    `json:"protect_content,omitempty"`
+	MessageEffectID      string                  `json:"message_effect_id,omitempty"`
 	ReplyParameters      *models.ReplyParameters `json:"reply_parameters,omitempty"`
 	ReplyMarkup          models.ReplyMarkup      `json:"reply_markup,omitempty"`
 }
@@ -812,7 +872,7 @@ type SendInvoiceParams struct {
 	Title                     string                  `json:"title"`
 	Description               string                  `json:"description"`
 	Payload                   string                  `json:"payload"`
-	ProviderToken             string                  `json:"provider_token"`
+	ProviderToken             string                  `json:"provider_token,omitempty"`
 	Currency                  string                  `json:"currency"`
 	Prices                    []models.LabeledPrice   `json:"prices"`
 	MaxTipAmount              int                     `json:"max_tip_amount,omitempty"`
@@ -832,6 +892,7 @@ type SendInvoiceParams struct {
 	IsFlexible                bool                    `json:"is_flexible,omitempty"`
 	DisableNotification       bool                    `json:"disable_notification,omitempty"`
 	ProtectContent            bool                    `json:"protect_content,omitempty"`
+	MessageEffectID           string                  `json:"message_effect_id,omitempty"`
 	ReplyParameters           *models.ReplyParameters `json:"reply_parameters,omitempty"`
 	ReplyMarkup               models.ReplyMarkup      `json:"reply_markup,omitempty"`
 }
@@ -840,7 +901,7 @@ type CreateInvoiceLinkParams struct {
 	Title                     string                `json:"title"`
 	Description               string                `json:"description"`
 	Payload                   string                `json:"payload"`
-	ProviderToken             string                `json:"provider_token"`
+	ProviderToken             string                `json:"provider_token,omitempty"`
 	Currency                  string                `json:"currency"`
 	Prices                    []models.LabeledPrice `json:"prices"`
 	MaxTipAmount              int                   `json:"max_tip_amount,omitempty"`
@@ -872,6 +933,16 @@ type AnswerPreCheckoutQueryParams struct {
 	ErrorMessage       string `json:"error_message,omitempty"`
 }
 
+type GetStarTransactionsParams struct {
+	Offset int `json:"offset,omitempty"`
+	Limit  int `json:"limit,omitempty"`
+}
+
+type RefundStarPaymentParams struct {
+	UserID                  int64  `json:"user_id"`
+	TelegramPaymentChargeID string `json:"telegram_payment_charge_id"`
+}
+
 type SetPassportDataErrorsParams struct {
 	UserID int64                         `json:"user_id"`
 	Errors []models.PassportElementError `json:"errors"`
@@ -885,6 +956,7 @@ type SendGameParams struct {
 	GameShorName         string                  `json:"game_short_name"`
 	DisableNotification  bool                    `json:"disable_notification,omitempty"`
 	ProtectContent       bool                    `json:"protect_content,omitempty"`
+	MessageEffectID      string                  `json:"message_effect_id,omitempty"`
 	ReplyParameters      *models.ReplyParameters `json:"reply_parameters,omitempty"`
 	ReplyMarkup          models.ReplyMarkup      `json:"reply_markup,omitempty"`
 }
@@ -894,14 +966,14 @@ type SetGameScoreParams struct {
 	Score              int   `json:"score"`
 	Force              bool  `json:"force,omitempty"`
 	DisableEditMessage bool  `json:"disable_edit_message,omitempty"`
-	ChatID             int   `json:"chat_id,omitempty"`
+	ChatID             any   `json:"chat_id,omitempty"`
 	MessageID          int   `json:"message_id,omitempty"`
 	InlineMessageID    int   `json:"inline_message_id,omitempty"`
 }
 
 type GetGameHighScoresParams struct {
 	UserID          int64 `json:"user_id"`
-	ChatID          int   `json:"chat_id,omitempty"`
+	ChatID          any   `json:"chat_id,omitempty"`
 	MessageID       int   `json:"message_id,omitempty"`
 	InlineMessageID int   `json:"inline_message_id,omitempty"`
 }

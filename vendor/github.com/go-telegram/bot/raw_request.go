@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"mime/multipart"
 	"net/http"
 	"reflect"
@@ -47,7 +48,11 @@ func (b *Bot) rawRequest(ctx context.Context, method string, params any, dest an
 		}
 	}
 
-	u := b.url + "/bot" + b.token + "/" + method
+	u := b.url + "/bot" + b.token + "/"
+	if b.testEnvironment {
+		u += "test/"
+	}
+	u += method
 
 	if b.isDebug && strings.ToLower(method) != "getupdates" {
 		requestDebugData, _ := json.Marshal(params)
@@ -67,7 +72,11 @@ func (b *Bot) rawRequest(ctx context.Context, method string, params any, dest an
 	if errDo != nil {
 		return fmt.Errorf("error do request for method %s, %w", method, errDo)
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
+			log.Printf("failed to close response body: %v", err)
+		}
+	}()
 
 	body, errReadBody := io.ReadAll(resp.Body)
 	if errReadBody != nil {

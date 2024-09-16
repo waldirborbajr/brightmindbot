@@ -1,5 +1,81 @@
 # Changelog
 
+## v1.8.1 (2024-09-16)
+
+- change handlers map to slice (#115) 
+- feat: Ability to process updates across multiple gorutines (#112)
+- add 'HandlerTypeCallbackQueryGameShortName' (#108)
+- feat: add middlewares for handler (#105)
+
+## v1.8.0 (2024-09-13)
+
+- support API v7.10
+- change type for field Type in models.Chat and models.ChatFullInfo from `string` to `models.ChatType`
+- add consts for ChatType
+  - models.ChatTypePrivate
+  - models.ChatTypeGroup
+  - models.ChatTypeSupergroup
+  - models.ChatTypeChannel
+
+
+## v1.7.3 (2024-09-10)
+
+- Fix findHandler behavior
+
+## v1.7.2 (2024-08-23)
+
+- fix: pass error with `%w` instead `%v` after rawRequest
+
+## v1.7.1 (2024-08-22)
+
+- add option `UseTestEnvironment` for use test environment in API requests
+
+## v1.7.0 (2024-08-14)
+
+- support API v7.9
+
+## v1.6.1 (2024-07-25)
+
+- add ValidateWebappRequest func for validate MiniApp requests
+
+## v1.6.0 (2024-07-18)
+
+- support API v7.6, 7.7
+- add const `models.ParseModeMarkdownV1`
+
+## v1.5.0 (2024-06-24)
+
+- support API v7.5
+
+## v1.4.1 (2024-06-19)
+
+- fix: getGameHighScores returns an array of high scores instead of a single object (#94)  
+- Use any type for ChatID in SetGameScoreParams and GetGameHighScoreParams (#88)
+
+## v1.4.0 (2024-05-29)
+
+- support API v7.4
+
+## v1.3.1 (2024-05-22)
+
+- add Marshal functions for struct with many types
+  - ChatBoostSource
+  - ChatBackground
+  - ChatMember
+  - MenuButton
+  - MaybeInaccessibleMessage
+  - ReactionType
+  - MessageOrigin
+
+## v1.3.0 (2024-05-20)
+
+- support API v7.3
+
+## v1.2.2 (2024-04-25)
+
+- fix race in test 
+- add example inline_keyboard_multiselect 
+
 ## v1.2.1 (2024-04-03)
 
 - Added error handling for specific error codes (#69) 

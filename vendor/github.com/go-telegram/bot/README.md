@@ -6,7 +6,7 @@
 
 > [Telegram Group](https://t.me/gotelegrambotui)
 
-> Supports Bot API version: [7.2](https://core.telegram.org/bots/api#march-31-2024) from March 31, 2024
+> Supports Bot API version: [7.10](https://core.telegram.org/bots/api#september-6-2024) from September 6, 2024
 
 It's a Go zero-dependencies telegram bot framework
 
@@ -52,7 +52,7 @@ func handler(ctx context.Context, b *bot.Bot, update *models.Update) {
 
 You can find more examples in the [examples](examples) folder.
 
-For test examples, you should set environment variable `EXAMPLE_TELEGRAM_BOT_TOKEN` to your bot token.
+To run the examples, set the `EXAMPLE_TELEGRAM_BOT_TOKEN` environment variable to your bot token.
 
 ## Getting started
 
@@ -75,7 +75,7 @@ b.Start(context.TODO())
 On create bot will call the `getMe` method (with 5 sec timeout). And returns error on fail.
 If you want to change this timeout, use option `bot.WithCheckInitTimeout`
 
-You can to define default handler for the bot:
+You can define a default handler for the bot:
 
 ```go
 b, err := bot.New("YOUR_BOT_TOKEN_FROM_BOTFATHER", bot.WithDefaultHandler(handler))
@@ -87,8 +87,8 @@ func handler(ctx context.Context, b *bot.Bot, update *models.Update) {
 
 ## Webhooks
 
-If you want to use webhooks, instead `bot.Start` you should use `bot.StartWebhook` method for start the bot.
-Also, you should to use `bot.WebhookHandler()` method as http handler for your server.
+If you want to use webhooks, instead of using `bot.Start`, you should use the `bot.StartWebhook` method to start the bot.
+Also, you should use `bot.WebhookHandler()` method as HTTP handler for your server.
 
 ```go
 func main() {
@@ -97,12 +97,13 @@ func main() {
 
 	opts := []bot.Option{
 		bot.WithDefaultHandler(handler),
+		bot.WithWebhookSecretToken(os.Getenv("EXAMPLE_TELEGRAM_WEBHOOK_SECRET_TOKEN"))
 	}
 
 	b, _ := bot.New(os.Getenv("EXAMPLE_TELEGRAM_BOT_TOKEN"), opts...)
 
 	// call methods.SetWebhook if needed
-	
+
 	go b.StartWebhook(ctx)
 
 	http.ListenAndServe(":2000", b.WebhookHandler())
@@ -181,6 +182,9 @@ b, err := bot.New("YOUR_BOT_TOKEN_FROM_BOTFATHER", opts...)
 - `WithSkipGetMe()` - skip call GetMe on bot init
 - `WithAllowedUpdates(params AllowedUpdates)` - set [allowed_updates](https://core.telegram.org/bots/api#getupdates) for getUpdates method
 - `WithUpdatesChannelCap(cap int)` - set updates channel capacity, by default 1024
+- `WithWebhookSecretToken(webhookSecretToken string)` - set X-Telegram-Bot-Api-Secret-Token header sent from telegram servers to confirm validity of update
+- `WithWorkers` - set the number of workers that are processing the Updates channel, by default 1
+- `UseTestEnvironment()` - use test environment
 
 ## Message.Text and CallbackQuery.Data handlers
 
@@ -212,8 +216,8 @@ b.UnregisterHandler(handlerID)
 ```
 
 Match Types:
-- `MatchTypeExact` 
-- `MatchTypePrefix` 
+- `MatchTypeExact`
+- `MatchTypePrefix`
 - `MatchTypeContains`
 
 You can use `RegisterHandlerRegexp` to match by regular expression.
@@ -239,10 +243,10 @@ b.RegisterHandlerMatchFunc(bot.HandlerTypeMessageText, matchFunc, myHandler)
 
 For some methods, like `SendPhoto`, `SendAudio` etc, you can send file by file path or file contents.
 
-For send file by URL or FileID, you can use `&models.InputFileString{Data: string}`:
+To send a file by URL or FileID, you can use `&models.InputFileString{Data: string}`:
 
 ```go
-// file id of uploaded image 
+// file id of uploaded image
 inputFileData := "AgACAgIAAxkDAAIBOWJimnCJHQJiJ4P3aasQCPNyo6mlAALDuzEbcD0YSxzjB-vmkZ6BAQADAgADbQADJAQ"
 // or URL image path
 // inputFileData := "https://example.com/image.png"
@@ -257,7 +261,7 @@ bot.SendPhoto(ctx, params)
 
 [Demo in examples](examples/send_photo/main.go)
 
-For send image file by file contents, you can use `&models.InputFileUpload{Filename: string, Data: io.Reader}`:
+To send an image file by its contents, you can use `&models.InputFileUpload{Filename: string, Data: io.Reader}`:
 
 ```go
 fileContent, _ := os.ReadFile("/path/to/image.png")
@@ -283,16 +287,16 @@ For methods like `SendMediaGroup` or `EditMessageMedia` you can send media by fi
 If you want to use `attach://` format, you should to define `MediaAttachment` field with file content reader.
 
 ```go
-fileConetent, _ := os.ReadFile("/path/to/image.png")
+fileContent, _ := os.ReadFile("/path/to/image.png")
 
 media1 := &models.InputMediaPhoto{
 	Media: "https://telegram.org/img/t_logo.png",
 }
 
 media2 := &models.InputMediaPhoto{
-	Media: "attach://image.png", 
+	Media: "attach://image.png",
 	Caption: "2",
-	MediaAttachment: bytes.NewReader(fileConetent),
+	MediaAttachment: bytes.NewReader(fileContent),
 }
 
 params := &bot.SendMediaGroupParams{
@@ -312,11 +316,11 @@ bot.SendMediaGroup(ctx, params)
 
 ### `EscapeMarkdown(s string) string`
 
-Escape special symbols for Telegram MarkdownV2 syntax 
+Escape special symbols for Telegram MarkdownV2 syntax
 
 ### `EscapeMarkdownUnescaped(s string) string`
 
-Escape only unescaped special symbols for Telegram MarkdownV2 syntax 
+Escape only unescaped special symbols for Telegram MarkdownV2 syntax
 
 ### `RandomString(n int) string`
 
@@ -324,7 +328,7 @@ Returns fast random a-zA-Z string with n length
 
 ### `True() bool`, `False() bool`
 
-Allows you to define *bool values for params, which require `*bool`, like `SendPoolParams`
+Allows you to define `*bool` values for params, which require `*bool`, like `SendPollParams`
 
 ```go
 p := &bot.SendPollParams{
@@ -334,14 +338,31 @@ p := &bot.SendPollParams{
     IsAnonymous: bot.False(),
 }
 
-b.SendPool(ctx, p)
+b.SendPoll(ctx, p)
+```
+
+### `ValidateWebappRequest(values url.Values, token string) (user *models.User, ok bool)`
+
+Validate request from Telegram Webapp
+
+https://core.telegram.org/bots/webapps#validating-data-received-via-the-mini-app
+
+```go
+// get url values from request
+values := req.URL.Query()
+
+user, ok := bot.ValidateWebappRequest(values, os.Getenv("TELEGRAM_BOT_TOKEN"))
+if !ok {
+    http.Error(w, "Unauthorized", http.StatusUnauthorized)
+    return
+}
 ```
 
 ### `FileDownloadLink(f *models.File) string`
 
 Return file download link after call method `GetFile`
 
-See [documentation(https://core.telegram.org/bots/api#getfile)
+See [documentation](https://core.telegram.org/bots/api#getfile)
 
 ## Errors
 

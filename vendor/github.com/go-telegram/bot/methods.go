@@ -132,6 +132,13 @@ func (b *Bot) SendVideoNote(ctx context.Context, params *SendVideoNoteParams) (*
 	return result, err
 }
 
+// SendPaidMedia https://core.telegram.org/bots/api#sendpaidmedia
+func (b *Bot) SendPaidMedia(ctx context.Context, params *SendPaidMediaParams) (*models.Message, error) {
+	var result models.Message
+	err := b.rawRequest(ctx, "sendPaidMedia", params, &result)
+	return &result, err
+}
+
 // SendMediaGroup https://core.telegram.org/bots/api#sendmediagroup
 func (b *Bot) SendMediaGroup(ctx context.Context, params *SendMediaGroupParams) ([]*models.Message, error) {
 	var result []*models.Message
@@ -293,6 +300,20 @@ func (b *Bot) EditChatInviteLink(ctx context.Context, params *EditChatInviteLink
 	return result, err
 }
 
+// CreateChatSubscriptionInviteLink https://core.telegram.org/bots/api#createchatsubscriptioninvitelink
+func (b *Bot) CreateChatSubscriptionInviteLink(ctx context.Context, params *CreateChatSubscriptionInviteLinkParams) (*models.ChatInviteLink, error) {
+	result := &models.ChatInviteLink{}
+	err := b.rawRequest(ctx, "createChatSubscriptionInviteLink", params, &result)
+	return result, err
+}
+
+// EditChatSubscriptionInviteLink https://core.telegram.org/bots/api#editchatsubscriptioninvitelink
+func (b *Bot) EditChatSubscriptionInviteLink(ctx context.Context, params *EditChatSubscriptionInviteLinkParams) (*models.ChatInviteLink, error) {
+	result := &models.ChatInviteLink{}
+	err := b.rawRequest(ctx, "editChatSubscriptionInviteLink", params, &result)
+	return result, err
+}
+
 // RevokeChatInviteLink https://core.telegram.org/bots/api#revokechatinvitelink
 func (b *Bot) RevokeChatInviteLink(ctx context.Context, params *RevokeChatInviteLinkParams) (*models.ChatInviteLink, error) {
 	result := &models.ChatInviteLink{}
@@ -371,8 +392,8 @@ func (b *Bot) LeaveChat(ctx context.Context, params *LeaveChatParams) (bool, err
 }
 
 // GetChat https://core.telegram.org/bots/api#getchat
-func (b *Bot) GetChat(ctx context.Context, params *GetChatParams) (*models.Chat, error) {
-	var result *models.Chat
+func (b *Bot) GetChat(ctx context.Context, params *GetChatParams) (*models.ChatFullInfo, error) {
+	var result *models.ChatFullInfo
 	err := b.rawRequest(ctx, "getChat", params, &result)
 	return result, err
 }
@@ -811,6 +832,20 @@ func (b *Bot) AnswerPreCheckoutQuery(ctx context.Context, params *AnswerPreCheck
 	return result, err
 }
 
+// GetStarTransactions https://core.telegram.org/bots/api#getstartransactions
+func (b *Bot) GetStarTransactions(ctx context.Context, params *GetStarTransactionsParams) (*models.StarTransactions, error) {
+	result := models.StarTransactions{}
+	err := b.rawRequest(ctx, "getStarTransactions", params, &result)
+	return &result, err
+}
+
+// RefundStarPayment https://core.telegram.org/bots/api#refundstarpayment
+func (b *Bot) RefundStarPayment(ctx context.Context, params *RefundStarPaymentParams) (bool, error) {
+	var result bool
+	err := b.rawRequest(ctx, "refundStarPayment", params, &result)
+	return result, err
+}
+
 // SetPassportDataErrors https://core.telegram.org/bots/api#setpassportdataerrors
 func (b *Bot) SetPassportDataErrors(ctx context.Context, params *SetPassportDataErrorsParams) (bool, error) {
 	var result bool
@@ -833,8 +868,8 @@ func (b *Bot) SetGameScore(ctx context.Context, params *SetGameScoreParams) (*mo
 }
 
 // GetGameHighScores https://core.telegram.org/bots/api#getgamehighscores
-func (b *Bot) GetGameHighScores(ctx context.Context, params *GetGameHighScoresParams) (*models.GameHighScore, error) {
-	result := &models.GameHighScore{}
-	err := b.rawRequest(ctx, "getGameHighScores", params, result)
+func (b *Bot) GetGameHighScores(ctx context.Context, params *GetGameHighScoresParams) ([]*models.GameHighScore, error) {
+	var result []*models.GameHighScore
+	err := b.rawRequest(ctx, "getGameHighScores", params, &result)
 	return result, err
 }
