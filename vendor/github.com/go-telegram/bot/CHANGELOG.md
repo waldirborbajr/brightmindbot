@@ -1,5 +1,37 @@
 # Changelog
 
+## v1.12.1 (2024-12-19)
+
+- add handler type for photo captions (#138)
+
+## v1.12.0 (2024-12-19)
+
+- support API v8.1
+
+## v1.11.1 (2024-11-21)
+
+- fix CreateNewStickerSetParams (#132) 
+
+## v1.11.0 (2024-11-18)
+
+- support API v8.0
+
+## v1.10.1 (2024-11-08)
+
+- Fix arm64 panic (#130) 
+
+## v1.10.0 (2024-10-31)
+
+- support API v7.11
+
+## v1.9.1 (2024-10-21)
+
+- fix unmarshal `ChatBackground` type (#126)
+
+## v1.9.0 (2024-10-17)
+
+- IMPORTANT! New option `WithNotAsyncHandlers` allows to run handlers in the main goroutine. Now, by default, all handlers are run in separate goroutines.
+
 ## v1.8.4 (2024-10-10)
 
 - add method GetBusinessConnection (#123)
