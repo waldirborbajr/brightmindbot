@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -31,6 +32,8 @@ type MatchFunc func(update *models.Update) bool
 
 // Bot represents Telegram Bot main object
 type Bot struct {
+	lastUpdateID int64
+
 	url                string
 	token              string
 	pollTimeout        time.Duration
@@ -38,6 +41,7 @@ type Bot struct {
 	webhookSecretToken string
 	testEnvironment    bool
 	workers            int
+	notAsyncHandlers   bool
 
 	defaultHandlerFunc HandlerFunc
 
@@ -50,7 +54,6 @@ type Bot struct {
 	handlers   []handler
 
 	client           HttpClient
-	lastUpdateID     int64
 	isDebug          bool
 	checkInitTimeout time.Duration
 
@@ -98,9 +101,24 @@ func New(token string, options ...Option) (*Bot, error) {
 	return b, nil
 }
 
+// ID returns the bot ID
+func (b *Bot) ID() int64 {
+	id, err := strconv.ParseInt(strings.Split(b.token, ":")[0], 10, 64)
+	if err != nil {
+		return 0
+	}
+
+	return id
+}
+
 // SetToken sets the bot token
 func (b *Bot) SetToken(token string) {
 	b.token = token
+}
+
+// Token returns the bot token
+func (b *Bot) Token() string {
+	return b.token
 }
 
 // StartWebhook starts the Bot with webhook mode
@@ -146,11 +164,13 @@ func (b *Bot) error(format string, args ...interface{}) {
 	b.errorsHandler(fmt.Errorf(format, args...))
 }
 
+// True and False returns the pointer to bool
 func True() *bool {
 	b := true
 	return &b
 }
 
+// False and True returns the pointer to bool
 func False() *bool {
 	b := false
 	return &b
